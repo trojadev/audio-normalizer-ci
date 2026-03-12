@@ -15,3 +15,6 @@ jobs:
       
       - name: Building Docker image
         run: docker build -t audio-processor .
+      
+      - name: Testing container
+      - run: docker run --rm -v $(pwd)/tests:/data audio-processor.py /data/test.wav
