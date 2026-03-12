@@ -2,9 +2,10 @@ name: Audio Pipeline
 
 on:
   push:
-    paths:
-      - 'Dockerfile'
-      - 'audio-processor.py'
+    # paths:
+    #   - 'Dockerfile'
+    #   - 'audio-processor.py'
+    #   - 'tests'
 
 jobs:
   build-image:
@@ -16,5 +17,4 @@ jobs:
       - name: Building Docker image
         run: docker build -t audio-processor .
       
-      - name: Testing container
-      - run: docker run --rm -v $(pwd)/tests:/data audio-normalizer /data/test.wav
+      - run: docker run --rm -v $(pwd)/tests:/data audio-processor /data/test_1.wav

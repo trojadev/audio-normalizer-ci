@@ -38,9 +38,10 @@ def main():
         filepath = sys.argv[1]
         if not os.path.exists(filepath):
             print(f"Error: File {filepath} does not exist.", file=sys.stderr)
+            sys.exit(1)
     elif len(sys.argv) > 2:
         print(f"Passed {len(sys.argv) - 1} arguments, but only 1 needed", file=sys.stderr)
-
+        sys.exit(1)
     else:
         print("Filepath not specified, please provide one.", file=sys.stderr)
         sys.exit(1)
