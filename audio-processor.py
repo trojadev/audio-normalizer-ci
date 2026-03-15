@@ -3,21 +3,37 @@ import subprocess
 import json
 import sys
 
-   
-
-def get_file_info(filepath):
+def normalize_audio_file(filepath):
+    
+    parent_directory = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
+    filepath_splitted = os.path.splitext(filepath)
+
+    processed_files_directory = f"{parent_directory}/processed_files/"
+   
+    #Create a save path for a processed file
+    filepath_new = processed_files_directory + f"{os.path.basename(filepath_splitted[0])}_normalized{filepath_splitted[1]}"
+
+    
+  
+###
     
     try:
-        duration = subprocess.check_output(["/usr/bin/soxi", "-d", filepath], text=True).replace("\n", "")
         
+        #Check if directory for saving processed files exists
+
+        if not os.path.isdir(processed_files_directory):
+            os.mkdir(processed_files_directory)
+        
+        #Normalize audio file and save it to processed files directory
+
+        subprocess.run(["/usr/bin/sox", filepath, filepath_new, "norm", "-3"], check=True)
+
+        duration = subprocess.check_output(["/usr/bin/soxi", "-d", filepath], text=True).replace("\n", "")
         channels = subprocess.check_output(["/usr/bin/soxi", "-c", filepath], text=True).replace("\n", "")
+       
 
-        # audio_data = {filename : file_length}
-
-        # audio_data_in_json = json.dumps(audio_data)
-
-        # print(audio_data_in_json)
+        print(f"{filename} normalized!")
 
         return {
             "filename:" : filename,
@@ -27,8 +43,8 @@ def get_file_info(filepath):
 
         }
     except subprocess.CalledProcessError as e:
-        print(f"Error processing file using soxi: {e}", file=sys.stderr)
-    
+        print(f"Error processing file: {e}", file=sys.stderr)
+
 
 
 def main():
@@ -48,13 +64,15 @@ def main():
     
     try:
 
-        #Retrieve file info and save it in JSON format
-        audio_data = get_file_info(filepath)
+
+        #Normalize audio, retrieve file info and save it in JSON format
+        audio_data = normalize_audio_file(filepath)
         audio_data_json = json.dumps(audio_data, indent=4)
         print(audio_data_json)
         sys.exit(0)
     
-    except Exception:
+    except Exception as e:
+        print(e)
         sys.exit(1)
 
 
