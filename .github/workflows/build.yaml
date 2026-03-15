@@ -11,10 +11,18 @@ jobs:
   build-image:
     runs-on: ubuntu-latest
     steps:
-      - name: Downloading code from repo
+      - name: Download code from repo
         uses: actions/checkout@v6
       
-      - name: Building Docker image
+      - name: Build Docker image
         run: docker build -t audio-processor .
       
-      - run: docker run --rm -v $(pwd)/tests:/data audio-processor /data/test_1.wav
+
+      - run: docker run --rm -v $(pwd)/tests:/data audio-processor /data/essa.wav   
+
+
+      - name: Save processed files
+        uses: actions/upload-artifact@v6
+        with:
+          name: audio_normalized
+          path: tests/processed_files/
