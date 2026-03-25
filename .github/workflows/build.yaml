@@ -2,10 +2,9 @@ name: Audio Pipeline
 
 on:
   push:
-    # paths:
-    #   - 'Dockerfile'
-    #   - 'audio-processor.py'
-    #   - 'tests'
+    paths-ignore:
+      - 'README.md'
+      
 
 jobs:
   build-image:

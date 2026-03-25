@@ -1,4 +1,0 @@
-requests==2.32.5
-requests-file==2.0.0
-requests-ftp==0.3.1
-

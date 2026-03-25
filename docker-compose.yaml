@@ -9,5 +9,4 @@ services:
       
       - ./tests:/data
 
-    #command: ["/data/essa.wav"]
 
