@@ -1,17 +1,18 @@
-FROM alpine:3.23.3
+ARG PYTHON_VER=3.12
+FROM python:${PYTHON_VER}-slim
 
-RUN apk update && apk add --no-cache python3 sox py-pip
+RUN apt-get update && apt-get -y install sox 
 
 WORKDIR /app
 
-RUN addgroup -g 10001 appgroup && \
-    adduser -u 10001 -G appgroup -s /bin/bash -D appuser
+RUN groupadd -g 1000 "appgroup" && \
+    useradd -u 1000 "appuser" -g 1000 -s /bin/bash
 
-RUN mkdir -p /data/processed_files/ && chown -R appuser:appgroup /data/processed_files/
+RUN mkdir -p /data/processed_files/ && chown -R 1000:1000 /data/processed_files/
 
 USER appuser
 
 COPY --chown=appuser:appgroup audio-processor.py /app
 
 
-ENTRYPOINT ["/usr/bin/python3", "audio-processor.py" ]
+ENTRYPOINT ["/usr/local/bin/python", "audio-processor.py" ]

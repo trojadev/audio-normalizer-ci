@@ -101,7 +101,7 @@ def main():
     #     sys.exit(1)
 
     try:
-
+        print(f"Current python version: {sys.version}")
         # Normalize audio, retrieve files info and save it in JSON format
         audio_data = batch_normalize_files(directory)
         audio_data_json = json.dumps(audio_data, indent=4)
