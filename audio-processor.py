@@ -69,7 +69,7 @@ def batch_edit_files(parent_directory):
 
 
 def main():
-    directory = "./data"
+    directory = "/data"
 
     try:
         print(f"Current python version: {sys.version}")
