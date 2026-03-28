@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9","3.10","3.11","3.12","3.13"]
+        python-version: ["3.12","3.13"]
     steps:
 
       - name: Set up Docker
@@ -60,11 +60,11 @@ jobs:
           cache-to: type=gha, mode=max
 
 
-      - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/tests:/data ghcr.io/${{ github.repository }}:latest #/data/essa.wav   
+      - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/data:/data ghcr.io/${{ github.repository }}:latest #/data/essa.wav   
 
 
       - name: Save processed files
         uses: actions/upload-artifact@v6
         with:
-          name: audio_normalized_python_${{ matrix.python-version }}
-          path: tests/processed_files/
+          name: audio_edited_python_${{ matrix.python-version }}
+          path: data/processed_files/
