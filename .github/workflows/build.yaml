@@ -67,7 +67,7 @@ jobs:
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
-          severity: 'CRITICAL, HIGH'
+          severity: HIGH, CRITICAL
 
       - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/data:/data ghcr.io/${{ github.repository }}:latest
 
