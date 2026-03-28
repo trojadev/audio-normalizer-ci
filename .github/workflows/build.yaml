@@ -60,7 +60,16 @@ jobs:
           cache-to: type=gha, mode=max
 
 
-      - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/data:/data ghcr.io/${{ github.repository }}:latest #/data/essa.wav   
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:${{matrix-python-version}}:latest
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL'
+
+      - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/data:/data ghcr.io/${{ github.repository }}:latest
 
 
       - name: Save processed files
