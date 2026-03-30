@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12","3.13"]
+        python-version: ["3.12"]
     steps:
 
       - name: Set up Docker
@@ -42,9 +42,10 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=sha,format=short,prefix=,
-            type=raw, value= ${{matrix.python-version}}
-            type=raw, value=latest
+            type=sha, prefix=
+            type=ref, event=branch
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+
             
             
 
@@ -60,11 +61,21 @@ jobs:
           cache-to: type=gha, mode=max
 
 
-      - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/data:/data ghcr.io/${{ github.repository }}:latest #/data/essa.wav   
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'HIGH'
+
+
+      - run: docker run --rm -u $(id -u):$(id -g) -v $(pwd)/data:/data ghcr.io/${{ github.repository }}:${{steps.meta.outputs.version}}
 
 
       - name: Save processed files
         uses: actions/upload-artifact@v6
         with:
-          name: audio_edited_python_${{ matrix.python-version }}
+          name: audio_edited_python_${{ steps.meta.outputs.version }}
           path: data/processed_files/
