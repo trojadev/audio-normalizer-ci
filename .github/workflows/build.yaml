@@ -42,7 +42,6 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=sha,format=short,prefix=,
             type=raw,value={{branch}}-{{sha}},
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
 
