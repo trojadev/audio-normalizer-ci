@@ -42,6 +42,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
+            type=sha,
             type=ref, event=branch,
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'trivy_implement') }}
 
@@ -63,7 +64,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/${{ github.repository }}:${{matrix.python-version}}
+          image-ref: ghcr.io/${{ github.repository }}:${{steps.meta.output.tags}}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
