@@ -28,7 +28,7 @@ jobs:
           docker pull ghcr.io/${{ github.repository }}:latest
 
       - name: Scan production image
-        uses: aquasecurity/trivy-action@5757a97c7e7821a5776cebc9bb87c984fa69cba8f1
+        uses: aquasecurity/trivy-action@v0.35.0
         with:
           image-ref: 'ghcr.io/${{ github.repository }}:latest'
           format: 'sarif'
