@@ -24,6 +24,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
     
       - name: Pull production image test
+        id: pull_image
         uses: nick-fields/retry@v2
         with:
           max_attempts: 3
@@ -32,6 +33,12 @@ jobs:
       # You can specify the shell commands you want to retry here
           command: |
             docker pull ghcr.io/${{ github.repository }}:late2st	
+      - name: Check if image was pulled
+        if: steps.id.outcome == 'failure'
+        run: |
+          echo 'Runner was trying to pull ghcr.io/${{ github.repository }}:late2st but it failed'
+
+          
 
         #- name: Pull production image
         #run: |
