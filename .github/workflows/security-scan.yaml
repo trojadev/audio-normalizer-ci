@@ -2,10 +2,10 @@ name: Scheduled Security Scan
 
 on:
   schedule:
-    # Run every 5 minutes
-    - cron: '*/5 * * * *'
+    # Run everyday at 6 am
+    - cron: '0 6 * * *'
   workflow_dispatch:
-  push:
+  
 
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
           docker pull ghcr.io/${{ github.repository }}:latest
 
       - name: Scan production image
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@57a97c7
         with:
           image-ref: 'ghcr.io/${{ github.repository }}:latest'
           format: 'sarif'
