@@ -42,7 +42,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=raw,value=${{github.ref == format('refs/heads/{0},'{branch}'}}
+            type=ref, event=branch,
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
 
             
