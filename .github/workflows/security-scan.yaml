@@ -33,10 +33,6 @@ jobs:
       # You can specify the shell commands you want to retry here
           command: |
             docker pull ghcr.io/${{ github.repository }}:late2st	
-      - name: Check if image was pulled
-        if: steps.id.outcome == 'failure'
-        run: |
-          echo 'Runner was trying to pull ghcr.io/${{ github.repository }}:late2st but it failed'
 
           
 
