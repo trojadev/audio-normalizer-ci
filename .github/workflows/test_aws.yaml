@@ -19,5 +19,5 @@ jobs:
         aws-region: eu-central-1
 
     - name: test running code
-      run: aws lightsail get-static-ips
+      run: aws lightsail get-disks
 #
