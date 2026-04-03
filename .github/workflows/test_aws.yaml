@@ -1,0 +1,19 @@
+name: Test AWS
+on:
+  push:
+  workflow_dispatch:
+    
+  
+
+
+jobs:
+  test-aws-login:
+    runs-on: ubuntu-latest
+    steps:
+    - name: login
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::303341354192:role/GithubAudioAlchemist_Workflow
+        aws-region: "*"
+
+
