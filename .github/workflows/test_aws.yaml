@@ -16,6 +16,6 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: arn:aws:iam::303341354192:role/GithubAudioAlchemist_Workflow
-        aws-region: eu-central-1a
+        aws-region: eu-central-1
 
 
